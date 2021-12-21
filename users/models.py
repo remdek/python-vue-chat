@@ -10,25 +10,19 @@ USER_TYPE = [
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, block=False):
+    def create_user(self, email, password=None, f_name=None):
         if not email:
             raise ValueError("Email required")
         if not password:
             raise ValueError("Password required")
-        # if not first_name:
-        #     raise ValueError("Укажите ваше имя")
+        if not f_name:
+            raise ValueError("Укажите ваше имя")
 
         user_obj = self.model(email=self.normalize_email(email))
         user_obj.set_password(password)
-        user_obj.block = block
         user_obj.save(using=self._db)
         return user_obj
-    #
-    # def create_staffuser(self, email, password=None):
-    #     return self.create_user(email, password=password)
-    #
-    # def create_superuser(self, email, password=None):
-    #     return self.create_user(email, password=password)
+
 
 
 class User(models.Model):
